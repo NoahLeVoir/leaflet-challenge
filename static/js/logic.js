@@ -5,6 +5,23 @@ var geojsonURL = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_
 console.log("Geo JSON data loaded");
 console.log(geojsonURL);
 
+// Function for the heatmap-style colores (light green to dark red)
+function getColor(depth) {
+    switch (true) {
+        case depth > 90:
+            return "#FF0000";
+        case depth > 70:
+            return "#FFA500";
+        case depth > 50:
+            return "#F8d568";
+        case depth > 30:
+            return "#FFFF00";
+        case depth > 10:
+            return "#9acd32";
+        default:
+            return "#00FF00";
+    }
+}
 
 // Draw initial map
 function drawMap(earthquakes) {
@@ -50,11 +67,28 @@ function drawMap(earthquakes) {
         collapsed: false
     }).addTo(earthquakeMap);
 
+    // Create legend for depth of each quake in the bottom right of the map
+    var legend = L.control({ position: "bottomright" });
+    legend.onAdd = function() {
+        var div = L.DomUtil.create("div", "info legend"), 
+        magnitudeLevels = [0, 10, 30, 50, 70, 90];
+
+        div.innerHTML += "<h3>Magnitude</h3>"
+
+        for (var i = 0; i < magnitudeLevels.length; i++) {
+            div.innerHTML +=
+                '<i style="background: ' + getColor(magnitudeLevels[i] + 1) + '"></i> ' +
+                magnitudeLevels[i] + (magnitudeLevels[i + 1] ? '&ndash;' + magnitudeLevels[i + 1] + '<br>' : '+');
+        }
+        return div;
+    };
+
+    // Add the legend to the map
+    legend.addTo(earthquakeMap);
+
 }
 
-// Call the drawMap function 
-// drawMap(); // - This was causing an issue not letting the data load
-
+// --------------------------
 
 // Perform API Call to get earthquake data
 // Then send that data to the magnitudeMarkers function
@@ -75,23 +109,23 @@ function magnitudeMarkers(quakeData) {
         layer.bindPopup("<h3>" + feature.properties.place + "</h3><p>" + feature.properties.mag + " magnitude</p><p>" + "</h3><p>" + feature.geometry.coordinates[2] + " Depth</p><p>" + new Date(feature.properties.time) + "</p>");
     }
 
-    // Function for the heatmap-style colores (light green to dark red)
-    function getColor(depth) {
-        switch (true) {
-            case depth > 90:
-                return "#581845";
-            case depth > 70:
-                return "#900C3F";
-            case depth > 50:
-                return "#C70039";
-            case depth > 30:
-                return "#FF5733";
-            case depth > 10:
-                return "#FFC300";
-            default:
-                return "#DAF7A6";
-        }
-    }
+    // // Function for the heatmap-style colores (light green to dark red)
+    // function getColor(depth) {
+    //     switch (true) {
+    //         case depth > 90:
+    //             return "#581845";
+    //         case depth > 70:
+    //             return "#900C3F";
+    //         case depth > 50:
+    //             return "#C70039";
+    //         case depth > 30:
+    //             return "#FF5733";
+    //         case depth > 10:
+    //             return "#FFC300";
+    //         default:
+    //             return "#DAF7A6";
+    //     }
+    // }
 
     // Function to update the marker size for map readability
     function markerSize(magnitude) {
