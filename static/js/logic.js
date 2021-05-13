@@ -1,4 +1,4 @@
-console.log("logic.js is connected to the index.html")
+console.log("logic.js is connected to the index.html");
 
 // Connect to USGS GeoJSON Feed API
 
