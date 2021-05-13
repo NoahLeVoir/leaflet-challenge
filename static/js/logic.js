@@ -1,9 +1,9 @@
-console.log("logic.js is connected to the index.html");
+// console.log("logic.js is connected to the index.html");
 
 // Connect to USGS GeoJSON Feed API
 var geojsonURL = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson";
-console.log("Geo JSON data loaded");
-console.log(geojsonURL);
+// console.log("Geo JSON data loaded");
+// console.log(geojsonURL);
 
 // Function for the heatmap-style colores (light green to dark red)
 function getColor(depth) {
@@ -100,11 +100,11 @@ d3.json(geojsonURL).then(function (data) {
 
 // Add Magnitude Markers to the map
 function magnitudeMarkers(quakeData) {
-    console.log("Earthquake JSON Data")
-    console.log(quakeData);
+    // console.log("Earthquake JSON Data")
+    // console.log(quakeData);
 
     // function to run for each feature in features array
-    // give each feature a popup
+    // Give each feature a popup
     function onEachFeature(feature, layer) {
         layer.bindPopup("<h3>" + feature.properties.place + "</h3><p>" + feature.properties.mag + " Magnitude</p><p>" + "</h3><p>" + feature.geometry.coordinates[2] + " Depth</p><p>" + new Date(feature.properties.time) + "</p>");
     }
