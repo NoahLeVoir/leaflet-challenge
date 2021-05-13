@@ -72,25 +72,33 @@ function magnitudeMarkers(quakeData) {
     // function to run for each feature in features array
     // give each feature a popup
     function onEachFeature(feature, layer) {
-        layer.bindPopup("<h3>" + feature.properties.place + "</h3><p>" + feature.properties.mag + " magnitude</p><p>" + new Date(feature.properties.time) + "</p>");
+        layer.bindPopup("<h3>" + feature.properties.place + "</h3><p>" + feature.properties.mag + " magnitude</p><p>" + "</h3><p>" + feature.geometry.coordinates[2] + " Depth</p><p>" + new Date(feature.properties.time) + "</p>");
     }
 
     // Function for the heatmap-style colores (light green to dark red)
-    function getColor(magnitude) {
+    function getColor(depth) {
         switch (true) {
-            case magnitude > 5:
+            case depth > 90:
                 return "#581845";
-            case magnitude > 4:
+            case depth > 70:
                 return "#900C3F";
-            case magnitude > 3:
+            case depth > 50:
                 return "#C70039";
-            case magnitude > 2:
+            case depth > 30:
                 return "#FF5733";
-            case magnitude > 1:
+            case depth > 10:
                 return "#FFC300";
             default:
                 return "#DAF7A6";
         }
+    }
+
+    // Function to update the marker size for map readability
+    function markerSize(magnitude) {
+        if (magnitude === 0) {
+          return 1;
+        }
+        return magnitude * 3;
     }
 
     // Create geojson layer
@@ -98,7 +106,7 @@ function magnitudeMarkers(quakeData) {
     var earthquakes = L.geoJSON(quakeData, {
         pointToLayer: function (feature, latlng) {
             return new L.circleMarker(latlng, {
-                radius: feature.properties.mag,
+                radius: markerSize(feature.properties.mag),
                 color: "black",
                 weight: 1,
                 fill: true,
