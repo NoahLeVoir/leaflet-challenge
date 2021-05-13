@@ -5,6 +5,7 @@ var geojsonURL = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_
 console.log("Geo JSON data loaded");
 console.log(geojsonURL);
 
+
 // Draw initial map
 function drawMap(earthquakes) {
     
@@ -23,16 +24,16 @@ function drawMap(earthquakes) {
     };
 
     // overlayMaps to hold the earthquake layer (NEED TO CREATE STILL)
-    var overlayMaps = {
-        "Earthquakes": earthquakes
-    };
+    // var overlayMaps = {
+    //     // "Earthquakes": earthquakes
+    // };
   
     // Set up initial Map
     // Add base and overlay layers to map
     var earthquakeMap = L.map("mapid", {
         center: [40.7, -97],
         zoom: 5,
-        layers: [outdoorsMap, earthquakes]
+        layers: [outdoorsMap] // , earthquakes]
     });
 
 }
@@ -41,5 +42,17 @@ function drawMap(earthquakes) {
 drawMap();
 
 
+// Perform API Call to get earthquake data
+// Then send that data to the magnitudeMarkers function
+d3.json(geojsonURL).then(function (data) {
+    magnitudeMarkers(data)
+});
+
 
 // Add Magnitude Markers to the map
+function magnitudeMarkers(quakeData) {
+    console.log("Earthquake JSON Data")
+    console.log(quakeData);
+
+
+}
