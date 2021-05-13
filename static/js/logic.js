@@ -23,29 +23,30 @@ function drawMap(earthquakes) {
         "Geography Map": outdoorsMap
     };
 
-    // overlayMaps to hold the earthquake layer (NEED TO CREATE STILL)
-    // var overlayMaps = {
-    //     // "Earthquakes": earthquakes
-    // };
+    // overlayMaps to hold the earthquake layer
+    var overlayMaps = {
+        "Earthquakes": earthquakes
+    };
   
     // Set up initial Map
     // Add base and overlay layers to map
     var earthquakeMap = L.map("mapid", {
         center: [40.7, -97],
         zoom: 5,
-        layers: [outdoorsMap] // , earthquakes]
+        layers: [outdoorsMap, earthquakes]
     });
 
 }
 
-// Call the drawMap function
-drawMap();
+// Call the drawMap function 
+// drawMap(); // - This was causing an issue not letting the data load
 
 
 // Perform API Call to get earthquake data
 // Then send that data to the magnitudeMarkers function
 d3.json(geojsonURL).then(function (data) {
-    magnitudeMarkers(data)
+    // Using console.log we see we need to go to .features in the quakedata
+    magnitudeMarkers(data.features)
 });
 
 
@@ -54,5 +55,43 @@ function magnitudeMarkers(quakeData) {
     console.log("Earthquake JSON Data")
     console.log(quakeData);
 
+    // function to run for each feature in features array
+    // give each feature a popup
+    function onEachFeature(feature, layer) {
+        layer.bindPopup("<h3>" + feature.properties.place + "</h3><p>" + feature.properties.mag + " magnitude</p><p>" + new Date(feature.properties.time) + "</p>");
+    }
+
+    // Function for the heatmap-style colores (light green to dark red)
+    function getColor(d) {
+        return d < 10 ? "#00FF00" : //lime green
+            d >= 10 ? "#9acd32" : //yellow green
+                d >= 30 ? "#FFFF00" : //yellow
+                    d >= 50 ? "f8d568" : //orange yellow
+                        d >= 70 ? "FFA500" : //orange
+                            d >= 90 ? "#FF0000" : //red
+                                "DC143C"; //crimson
+    }
+
+    // Create geojson layer
+    // To get the data that we want
+    var earthquakes = L.geoJSON(quakeData, {
+        pointToLayer: function (feature, latlng) {
+            return new L.circleMarker(latlng, {
+                radius: feature.properties.mag,
+                color: "black",
+                weight: .5,
+                fill: true,
+                fillColor: (getColor(feature.geometry.coordinates[2])),
+                fillOpacity: 1
+            })
+        },
+
+        // Call onEachFeature function
+        onEachFeature: onEachFeature
+    
+    });
+
+    // Send this to the "earthquake" layer in the drawMap function
+    drawMap(earthquakes);
 
 }
