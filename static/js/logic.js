@@ -106,26 +106,8 @@ function magnitudeMarkers(quakeData) {
     // function to run for each feature in features array
     // give each feature a popup
     function onEachFeature(feature, layer) {
-        layer.bindPopup("<h3>" + feature.properties.place + "</h3><p>" + feature.properties.mag + " magnitude</p><p>" + "</h3><p>" + feature.geometry.coordinates[2] + " Depth</p><p>" + new Date(feature.properties.time) + "</p>");
+        layer.bindPopup("<h3>" + feature.properties.place + "</h3><p>" + feature.properties.mag + " Magnitude</p><p>" + "</h3><p>" + feature.geometry.coordinates[2] + " Depth</p><p>" + new Date(feature.properties.time) + "</p>");
     }
-
-    // // Function for the heatmap-style colores (light green to dark red)
-    // function getColor(depth) {
-    //     switch (true) {
-    //         case depth > 90:
-    //             return "#581845";
-    //         case depth > 70:
-    //             return "#900C3F";
-    //         case depth > 50:
-    //             return "#C70039";
-    //         case depth > 30:
-    //             return "#FF5733";
-    //         case depth > 10:
-    //             return "#FFC300";
-    //         default:
-    //             return "#DAF7A6";
-    //     }
-    // }
 
     // Function to update the marker size for map readability
     function markerSize(magnitude) {
