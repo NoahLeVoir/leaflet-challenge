@@ -76,14 +76,21 @@ function magnitudeMarkers(quakeData) {
     }
 
     // Function for the heatmap-style colores (light green to dark red)
-    function getColor(d) {
-        return d < 10 ? "#00FF00" : //lime green
-            d >= 10 ? "#9acd32" : //yellow green
-                d >= 30 ? "#FFFF00" : //yellow
-                    d >= 50 ? "f8d568" : //orange yellow
-                        d >= 70 ? "FFA500" : //orange
-                            d >= 90 ? "#FF0000" : //red
-                                "DC143C"; //crimson
+    function getColor(magnitude) {
+        switch (true) {
+            case magnitude > 5:
+                return "#581845";
+            case magnitude > 4:
+                return "#900C3F";
+            case magnitude > 3:
+                return "#C70039";
+            case magnitude > 2:
+                return "#FF5733";
+            case magnitude > 1:
+                return "#FFC300";
+            default:
+                return "#DAF7A6";
+        }
     }
 
     // Create geojson layer
@@ -93,7 +100,7 @@ function magnitudeMarkers(quakeData) {
             return new L.circleMarker(latlng, {
                 radius: feature.properties.mag,
                 color: "black",
-                weight: .5,
+                weight: 1,
                 fill: true,
                 fillColor: (getColor(feature.geometry.coordinates[2])),
                 fillOpacity: 1
