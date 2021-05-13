@@ -9,7 +9,7 @@ console.log(geojsonURL);
 function drawMap(earthquakes) {
     
     // Create the tile layer to be the background the map
-    // Will use mapbox "lightmap" as the title layer
+    // Will use mapbox "outdoor" as the title layer
     var outdoorsMap = L.tileLayer("https://api.mapbox.com/styles/v1/mapbox/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
         attribution: "Map data &copy; <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Imagery © <a href=\"https://www.mapbox.com/\">Mapbox</a>",
         maxZoom: 18,
@@ -30,7 +30,7 @@ function drawMap(earthquakes) {
     // Set up initial Map
     // Add base and overlay layers to map
     var earthquakeMap = L.map("mapid", {
-        center: [40.7, -73.95],
+        center: [40.7, -97],
         zoom: 5,
         layers: [outdoorsMap, earthquakes]
     });
