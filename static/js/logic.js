@@ -73,7 +73,7 @@ function drawMap(earthquakes) {
         var div = L.DomUtil.create("div", "info legend"), 
         magnitudeLevels = [0, 10, 30, 50, 70, 90];
 
-        div.innerHTML += "<h3>Magnitude</h3>"
+        div.innerHTML += "<h3>Depth Recorded</h3>"
 
         for (var i = 0; i < magnitudeLevels.length; i++) {
             div.innerHTML +=
