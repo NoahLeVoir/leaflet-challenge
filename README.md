@@ -3,7 +3,7 @@ UMN DVA Homework 17 Visualizing Data with Leaflet
 
 ## Noah LeVoir
 
-link to webpage submission: 
+Visualization can be found by clonging this repo to your local device and using something like LiveServer to view the index.html file.
 
 This repo contains the following:
 - An Images folder for this readme
